@@ -1,7 +1,12 @@
+import setupEnv from "./setup";
 import "./style.css";
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
-  <div>
-    <h1>Vite + TypeScript</h1>
-  </div>
-`;
+const main = () => {
+  console.log("main func");
+  const canvas = document.querySelector("#targetCanvas");
+  if (!canvas) throw new Error("canvas not found :(");
+
+  setupEnv(canvas);
+};
+
+main();
