@@ -40,3 +40,17 @@ export const createShaderProgram = (
 
   return program;
 };
+
+export const resizeCanvas = (
+  renderingCtx: WebGLRenderingContext,
+  canvas: HTMLCanvasElement,
+) => {
+  const devicePixelRatio = Math.min(window.devicePixelRatio, 2);
+  const sideLength = Math.min(window.innerWidth, window.innerHeight) * 0.8;
+  canvas.style.width = `${sideLength}px`;
+  canvas.style.height = `${sideLength}px`;
+  canvas.width = sideLength * devicePixelRatio;
+  canvas.height = sideLength * devicePixelRatio;
+  renderingCtx.viewport(0, 0, canvas.width, canvas.height);
+  // gl.uniform1f(uniforms.u_ratio, uniforms.width / canvasEl.height);
+};

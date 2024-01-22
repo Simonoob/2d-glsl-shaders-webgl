@@ -1,6 +1,6 @@
 import { fragmentShaderSource } from "../shaders/fragment";
 import { vertexShaderSource } from "../shaders/vertex";
-import { createShader, createShaderProgram } from "./utils";
+import { createShader, createShaderProgram, resizeCanvas } from "./utils";
 
 const setupRenderingCtx = (canvas: HTMLCanvasElement) => {
   const renderCtx = canvas.getContext("webgl");
@@ -51,6 +51,9 @@ const setupRenderingCtx = (canvas: HTMLCanvasElement) => {
     0,
     0,
   );
+
+  window.addEventListener("resize", () => resizeCanvas(renderCtx, canvas));
+  resizeCanvas(renderCtx, canvas);
 
   return renderCtx;
 };
