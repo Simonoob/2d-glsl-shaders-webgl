@@ -41,16 +41,63 @@ export const createShaderProgram = (
   return program;
 };
 
-export const resizeCanvas = (
-  renderingCtx: WebGLRenderingContext,
+export const setupRenderingCtx = (
   canvas: HTMLCanvasElement,
+  vertexShaderSource: string,
+  fragmentShaderSource: string,
 ) => {
-  const devicePixelRatio = Math.min(window.devicePixelRatio, 2);
-  const sideLength = Math.min(window.innerWidth, window.innerHeight) * 0.8;
-  canvas.style.width = `${sideLength}px`;
-  canvas.style.height = `${sideLength}px`;
-  canvas.width = sideLength * devicePixelRatio;
-  canvas.height = sideLength * devicePixelRatio;
-  renderingCtx.viewport(0, 0, canvas.width, canvas.height);
-  // gl.uniform1f(uniforms.u_ratio, uniforms.width / canvasEl.height);
+  const renderingCtx = canvas.getContext("webgl");
+  if (!renderingCtx)
+    throw new Error(
+      "coundn't get the rendering context. your browser doesn't support webgl",
+    );
+
+  const vertexShader = createShader(
+    renderingCtx,
+    vertexShaderSource,
+    renderingCtx.VERTEX_SHADER,
+  );
+  const fragmentShader = createShader(
+    renderingCtx,
+    fragmentShaderSource,
+    renderingCtx.FRAGMENT_SHADER,
+  );
+  if (!fragmentShader || !vertexShader)
+    throw new Error("coudn't create the shaders");
+  const webGlProgram = createShaderProgram(
+    renderingCtx,
+    vertexShader,
+    fragmentShader,
+  );
+  if (!webGlProgram) throw new Error("condn't create the shader program");
+
+  const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
+
+  const vertexBuffer = renderingCtx.createBuffer();
+  renderingCtx.bindBuffer(renderingCtx.ARRAY_BUFFER, vertexBuffer);
+  renderingCtx.bufferData(
+    renderingCtx.ARRAY_BUFFER,
+    vertices,
+    renderingCtx.STATIC_DRAW,
+  );
+
+  renderingCtx.useProgram(webGlProgram);
+
+  const positionLocation = renderingCtx.getAttribLocation(
+    webGlProgram,
+    "a_position",
+  );
+  renderingCtx.enableVertexAttribArray(positionLocation);
+
+  renderingCtx.bindBuffer(renderingCtx.ARRAY_BUFFER, vertexBuffer);
+  renderingCtx.vertexAttribPointer(
+    positionLocation,
+    2,
+    renderingCtx.FLOAT,
+    false,
+    0,
+    0,
+  );
+
+  return { renderingCtx, webGlProgram };
 };
