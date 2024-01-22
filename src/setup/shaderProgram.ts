@@ -47,6 +47,12 @@ class ShaderProgram {
   }
 
   render = () => {
+    const currentTime = performance.now() / 1000;
+    this.renderingCtx.uniform1f(
+      this.renderingCtx.getUniformLocation(this.webGlProgram, "u_time"),
+      currentTime,
+    );
+
     this.renderingCtx.clearColor(0.0, 0.0, 0.0, 1.0);
     this.renderingCtx.clear(this.renderingCtx.COLOR_BUFFER_BIT);
     this.renderingCtx.drawArrays(this.renderingCtx.TRIANGLE_STRIP, 0, 4);
