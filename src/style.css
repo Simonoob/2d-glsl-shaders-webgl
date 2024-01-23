@@ -26,18 +26,25 @@ body {
   margin: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.canvasContainer {
+  width: 80vmin;
+  display: grid;
+  justify-items: center;
+  gap: 20vmin;
+  margin: 10vmin 0;
 }
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+#targetCanvas1 {
+  width: 80vmin;
+  aspect-ratio: 1/1;
+}
+#targetCanvas2 {
+  height: 80vmin;
+  aspect-ratio: 9/19.5;
+}
+#targetCanvas3 {
+  width: 80vmin;
+  aspect-ratio: 16/9;
 }

@@ -64,10 +64,9 @@ class ShaderProgram {
   }
 
   resizeCanvas = () => {
-    const width = window.innerWidth * 0.8;
-    const height = window.innerHeight * 0.8;
-    this.canvas.style.width = `${width}px`;
-    this.canvas.style.height = `${height}px`;
+    const rect = this.canvas.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
     this.canvasSize = {
       width,
       height,

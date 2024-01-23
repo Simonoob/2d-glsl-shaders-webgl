@@ -18,7 +18,7 @@ void main() {
 
 
     // limit radius and make value bool (1 or 0)
-    distanceFromPointer = step(0.01, distanceFromPointer + (cos(u_time) * 0.01));
+    distanceFromPointer = step(0.02 + (cos(u_time) * 0.005), distanceFromPointer);
 
 
     vec3 color = vec3(vUv, distanceFromPointer);
