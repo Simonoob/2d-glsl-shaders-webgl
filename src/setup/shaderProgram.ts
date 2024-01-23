@@ -36,23 +36,16 @@ class ShaderProgram {
     );
     this.renderingCtx = renderingCtx;
     this.webGlProgram = webGlProgram;
-    this.pointer = {
-      x: 0,
-      y: 0,
-    };
 
     window.addEventListener("resize", () => {
       this.resizeCanvas();
     });
     this.resizeCanvas();
-    this.updatePointerPosition(
-      window.innerWidth -
-        this.canvas.getBoundingClientRect().left -
-        this.canvasSize.width / 2,
-      window.innerHeight -
-        this.canvas.getBoundingClientRect().top -
-        this.canvasSize.height / 2,
-    );
+
+    this.pointer = {
+      x: this.canvasSize.width / 2,
+      y: this.canvasSize.height / 2,
+    };
 
     canvas.addEventListener("mousemove", (e) => {
       this.updatePointerPosition(e.clientX, e.clientY);
