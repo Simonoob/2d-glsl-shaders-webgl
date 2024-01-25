@@ -78,6 +78,11 @@ class ShaderProgram {
       this.renderingCtx.getUniformLocation(this.webGlProgram, "u_ratio"),
       this.canvas.width / this.canvas.height,
     );
+    this.renderingCtx.uniform2f(
+      this.renderingCtx.getUniformLocation(this.webGlProgram, "u_resolution"),
+      this.canvas.width,
+      this.canvas.height,
+    );
   };
 
   updatePointerPosition = (clientX: number, clientY: number) => {

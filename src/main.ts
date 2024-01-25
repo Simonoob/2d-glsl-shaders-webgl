@@ -1,6 +1,6 @@
 import ShaderProgram from "./setup";
-import fragmentShaderSource from "./shaders/testUniforms/fragment.glsl?raw";
-import vertexShaderSource from "./shaders/testUniforms/vertex.glsl?raw";
+import fragmentShaderSource from "./shaders/waves/waves1.glsl?raw";
+import vertexShaderSource from "./shaders/basicVertex.glsl?raw";
 import "./style.css";
 
 const main = () => {
