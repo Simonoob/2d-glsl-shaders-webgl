@@ -1,7 +1,7 @@
 #ifdef GL_ES
 precision mediump float;
 #endif
-
+const int scaleMultiplier = 3;
 
 varying vec2 vUv;
 
@@ -12,8 +12,12 @@ uniform vec2 u_pointer;
 
 
 // Plot a line on Y using a value between 0.0-1.0
-float plot(vec2 st) {    
-    return step(0.001, abs(st.y - st.x));
+float plot(vec2 st, float thickness) {    
+    return smoothstep(thickness-0.02, thickness, abs(st.y - st.x)) * smoothstep(thickness, thickness+0.02, abs(st.y - st.x));
+}
+
+float plotSimple(vec2 st) {    
+    return plot(st, 0.0005);
 }
 
 void main() {
@@ -23,42 +27,76 @@ void main() {
   // and adjust for the viewport ratio
   vec2 uv = vUv - 0.5;
   uv.x *= u_ratio;
+  uv*=float(scaleMultiplier)*2.0;
   // ------------
 
-
-  float distanceFromPoint = length(vec2(0.0) - uv);
-  float circle = step(0.01, distanceFromPoint);
 
   // ------------
   // grid
+  float grid = 1.0; //init grid to neutral value 
 
-  float xLine = plot(vec2(
-    0.0,
-    uv.y
-  ));
+  for(int i=0;i<=scaleMultiplier;i++){
+    grid *=
+    // .5 -
+    plotSimple(vec2(float(i) + 0.5, uv.y))
+    // -.5 -
+    * plotSimple(vec2(-(float(i) + 0.5), uv.y))
+    // .5 |
+    * plotSimple(vec2(float(i) + 0.5, uv.x))
+    // -.5 |
+    * plotSimple(vec2(-(float(i) + 0.5), uv.x));
 
-  float xLineHalf = plot(vec2(
-    0.25,
-    uv.y
-  ));
+    grid *=
+    // 1 -
+    plotSimple(vec2(float(i), uv.y))
+    // -1 -
+    * plotSimple(vec2(-float(i), uv.y))
+    // 1 |
+    * plotSimple(vec2(float(i), uv.x))
+    // -1 |
+    * plotSimple(vec2(-float(i), uv.x));
 
-  float grid =
-    // 0 -
-    plot(vec2(0.0, uv.y))
-    // .25 -
-    * plot(vec2(0.25, uv.y))
-    // -.25 -
-    * plot(vec2(-0.25, uv.y))
-    // 0 |
-    * plot(vec2(0.0, uv.x))
-    // .25 |
-    * plot(vec2(0.25, uv.x))
-    // -.25 |
-    * plot(vec2(-0.25, uv.x));
+
+    // ------------
+    // circle
+    float distanceFromPointY = length(vec2(0.0, float(i)) - uv);
+    float circleY = smoothstep(0.03, 0.04, distanceFromPointY);
+
+    float distanceFromPointYneg = length(vec2(0.0, -float(i)) - uv);
+    float circleYneg = smoothstep(0.03, 0.04, distanceFromPointYneg);
+    grid*=circleY*circleYneg;
+
+
+    float distanceFromPointX = length(vec2(float(i), 0.0) - uv);
+    float circleX = smoothstep(0.03, 0.04, distanceFromPointX);
+
+    float distanceFromPointXneg = length(vec2(-float(i), 0.0) - uv);
+    float circleXneg = smoothstep(0.03, 0.04, distanceFromPointXneg);
+    grid*=circleX*circleXneg;
+    // ------------
+
+    }
+    // ------------
+
+
+
   // ------------
 
+  float sinLine = plot(
+    vec2(
+      uv.y,
+      sin(uv.x + u_time)
+    ),
+    0.01
+  );
+
+
+  float func = sinLine;
+
   vec3 color = vec3(
-    grid * circle
+    func * (0.75+grid),
+    func * (0.9+grid),
+    func
   );
 
 
