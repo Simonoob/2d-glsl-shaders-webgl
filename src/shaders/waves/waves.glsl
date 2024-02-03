@@ -13,11 +13,11 @@ uniform vec2 u_pointer;
 
 // Plot a line on Y using a value between 0.0-1.0
 float plot(vec2 st, float thickness) {    
-    return smoothstep(thickness-0.02, thickness, abs(st.y - st.x)) * smoothstep(thickness, thickness+0.02, abs(st.y - st.x));
+    return smoothstep(thickness-0.01, thickness, abs(st.y - st.x)) * smoothstep(thickness, thickness+0.01, abs(st.y - st.x));
 }
 
 float plotSimple(vec2 st) {    
-    return plot(st, 0.0005);
+    return plot(st, 0.003);
 }
 
 void main() {
@@ -82,10 +82,15 @@ void main() {
 
   // ------------
 
+  float time = u_time;
+  float x = uv.x;
+  float y = uv.y;
+  float yProcessed = <y_function>;
+
   float sinLine = plot(
     vec2(
       uv.y,
-      sin(uv.x + u_time)
+      yProcessed
     ),
     0.01
   );

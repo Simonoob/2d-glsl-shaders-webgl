@@ -1,0 +1,19 @@
+---
+import { Debug } from 'astro:components';
+import Layout from '../layouts/Layout.astro';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const url = new URL('.', import.meta.url);
+const pages = (await fs.readdir(url.pathname)).filter((e)=>{
+    return path.extname(e).toLowerCase() === '.astro' && !e.startsWith('index')
+  }).map(f=>path.basename(f,'.astro'))
+---
+
+<Layout title="Welcome to Astro.">
+  {pages.map((page) => (
+    <div>
+      <a href={`/${page}`}>{page}</a>
+    </div>
+  ))}
+</Layout>
+
