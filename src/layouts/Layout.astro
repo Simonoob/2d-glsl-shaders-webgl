@@ -129,8 +129,8 @@ const pages = (await fs.readdir(url.pathname))
     </button>
   </div>
 
-  <main class="py-10 lg:pl-72">
-    <div class="px-4 sm:px-6 lg:px-8">
+  <main class="py-10 lg:pl-72 relative h-screen">
+    <div class="px-4 sm:px-6 lg:px-8 relative h-full w-full">
 		<slot />
     </div>
   </main>
