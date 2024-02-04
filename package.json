@@ -19,6 +19,7 @@
     "typescript": "^5.3.3"
   },
   "devDependencies": {
-    "@tweakpane/core": "^2.0.3"
+    "@tweakpane/core": "^2.0.3",
+    "@types/alpinejs": "^3.13.6"
   }
 }
