@@ -22,7 +22,7 @@ const main = (): void => {
   const gui = new Pane();
   const params = {
     aspectRatio: "1/1",
-    yFunction: "sin(x/y - time)",
+    yFunction: "sin(exp(x) - cos(y) - time)",
   };
   const canvas = document.querySelector<HTMLCanvasElement>("#targetCanvas");
 
