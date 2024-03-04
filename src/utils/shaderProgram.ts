@@ -77,7 +77,6 @@ class ShaderProgram {
       width,
       height,
     };
-    console.log("resize", width, height);
     this.canvas.width = width * this.devicePixelRatio;
     this.canvas.height = height * this.devicePixelRatio;
     this.renderingCtx.viewport(0, 0, this.canvas.width, this.canvas.height);
